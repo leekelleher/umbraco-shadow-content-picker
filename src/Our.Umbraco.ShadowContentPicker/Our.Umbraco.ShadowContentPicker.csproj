@@ -86,15 +86,6 @@
     <Content Include="Web\UI\App_Plugins\ShadowContentPicker\shadow-content-picker.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>IF %25ComputerName%25 == UMBRELLA-SB (
-  IF NOT "$(SolutionDir)" == "*Undefined*" (
-    XCOPY /s /y "$(TargetPath)" "C:\VCS\Umbrella\Carlsberg\lpb-project\draughtmaster-2019\bin\"
-    XCOPY /s /y "$(TargetDir)$(ProjectName).pdb" "C:\VCS\Umbrella\Carlsberg\lpb-project\draughtmaster-2019\bin\"
-    XCOPY /s /y "$(ProjectDir)Web\UI\*.*" "C:\VCS\Umbrella\Carlsberg\lpb-project\draughtmaster-2019\"
-  )
-)</PostBuildEvent>
-  </PropertyGroup>
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
