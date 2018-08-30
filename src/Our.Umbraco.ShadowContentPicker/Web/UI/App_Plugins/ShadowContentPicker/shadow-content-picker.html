@@ -2,13 +2,13 @@
 
     <div ui-sortable="vm.sortableOptions" ng-model="model.value">
         <div class="umb-node-preview"
-             ng-class="{'umb-node-preview--sortable': vm.sortable, 'umb-node-preview--unpublished': x.item.published === false }"
+             ng-class="{ 'umb-node-preview--sortable': vm.sortable, 'umb-node-preview--unpublished': x.item.published === false }"
              ng-repeat="x in model.value">
             <i ng-if="x.item.icon" class="umb-node-preview__icon {{ x.item.icon }}"></i>
             <div class="umb-node-preview__content">
                 <div class="umb-node-preview__name">{{ x.item.name }}</div>
                 <div class="umb-node-preview__description" ng-if="x.item.description">{{ x.item.description }}</div>
-                <div class="umb-user-group-preview__permission" ng-if="x.item.overrides">
+                <div class="umb-user-group-preview__permission" ng-if="x.item.overrides.length > 0">
                     <span>
                         <span class="bold">Overridden:</span>
                         <span ng-repeat="override in x.item.overrides">{{ override.name }}<span ng-if="!$last">, </span></span>
@@ -16,15 +16,13 @@
                 </div>
             </div>
             <div class="umb-node-preview__actions">
-                <a class="umb-node-preview__action" title="Override" href="" ng-if="vm.allowEdit" ng-click="vm.edit($event, $index, x)">Override</a>
-                <a class="umb-node-preview__action umb-node-preview__action--red" title="Remove" href="" ng-if="vm.allowRemove" ng-click="vm.remove($index)"><localize key="general_remove">Remove</localize></a>
+                <a class="umb-node-preview__action" title="Override" href="" prevent-default ng-if="vm.allowEdit" ng-click="vm.edit($event, $index, x)">{{ x.item.overrides.length === 0 ? "Override" : "Edit" }}</a>
+                <a class="umb-node-preview__action umb-node-preview__action--red" title="Remove" href="" prevent-default ng-if="vm.allowRemove" ng-click="vm.remove($index)">Remove</a>
             </div>
         </div>
     </div>
 
-    <a ng-if="vm.allowAdd" class="umb-node-preview-add" href="" ng-click="vm.add($event)" prevent-default>
-        <localize key="general_add">Add</localize>
-    </a>
+    <a class="umb-node-preview-add" href="" ng-if="vm.allowAdd" ng-click="vm.add($event)" prevent-default>Add</a>
 
     <umb-overlay ng-if="vm.contentPickerOverlay.show"
                  model="vm.contentPickerOverlay"
