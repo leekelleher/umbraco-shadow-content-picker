@@ -65,7 +65,7 @@ namespace Our.Umbraco.ShadowContentPicker.Models
 
         public DateTime UpdateDate => _content.UpdateDate != default(DateTime) ? _content.UpdateDate : _fallback.UpdateDate;
 
-        public string Url => string.IsNullOrWhiteSpace(_content.Url) == false ? _content.Url : _fallback.Url;
+        public string Url => string.IsNullOrWhiteSpace(_content.Url) == false && _content.Url.Equals("#") == false ? _content.Url : _fallback.Url;
 
         public string UrlName => string.IsNullOrWhiteSpace(_content.UrlName) == false ? _content.UrlName : _fallback.UrlName;
 
