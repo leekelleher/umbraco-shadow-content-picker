@@ -27,6 +27,12 @@ namespace Our.Umbraco.ShadowContentPicker.PropertyEditors
                 return base.ConvertDbToEditor(property, propertyType, dataTypeService);
 
             // TODO: We could potentially do a check here, in case it's been hot-swapped with a ContentPicker or MNTP? [LK]
+            if (propertyValue.DetectIsJson() == false)
+            {
+                // assume the value is legacy ContentPicker or MNTP
+                // let's explode the CSV, then implode to serialized string of the model
+                propertyValue = string.Concat("[{ \"udi\": \"", string.Join("\" }, { \"udi\": \"", propertyValue.ToDelimitedList()), "\" }]");
+            }
 
             var model = JsonConvert.DeserializeObject<ShadowContentPickerEditorModel[]>(propertyValue);
             if (model == null)

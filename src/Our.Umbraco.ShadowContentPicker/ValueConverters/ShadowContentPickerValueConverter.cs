@@ -26,6 +26,14 @@ namespace Our.Umbraco.ShadowContentPicker.ValueConverters
             if (value == null || string.IsNullOrWhiteSpace(value))
                 return null;
 
+            // TODO: We could potentially do a check here, in case it's been hot-swapped with a ContentPicker or MNTP? [LK]
+            if (value.DetectIsJson() == false)
+            {
+                // assume the value is legacy ContentPicker or MNTP
+                // let's explode the CSV, then implode to serialized string of the model
+                value = string.Concat("[{ \"udi\": \"", string.Join("\" }, { \"udi\": \"", value.ToDelimitedList()), "\" }]");
+            }
+
             return JsonConvert.DeserializeObject<ShadowContentPickerDbModel[]>(value);
         }
 
