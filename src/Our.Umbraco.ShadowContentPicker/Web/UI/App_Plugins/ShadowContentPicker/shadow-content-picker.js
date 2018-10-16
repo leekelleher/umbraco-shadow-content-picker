@@ -60,7 +60,6 @@ angular.module("umbraco").controller("Our.Umbraco.ShadowContentPicker.Controller
                         _.each(propertyAliases, function (x) {
                             var v = data.model[x];
                             if (_.isEmpty(data.model[x]) === false) {
-
                                 var property = _.find(currentEditorModel.properties, function (p) {
                                     return p.alias === x;
                                 });
@@ -133,10 +132,12 @@ angular.module("umbraco").controller("Our.Umbraco.ShadowContentPicker.Controller
         };
 
         function edit($event, $index, item) {
-            if (item.content && item.content.hasOwnProperty("icContentTypeGuid") === false) {
-                item.content.icContentTypeGuid = item.contentTypeGuid;
-                item.content.name = item.item.name;
+            if (_.isEmpty(item.content)) {
+                item.content = {}
             }
+
+			item.content.icContentTypeGuid = item.content.icContentTypeGuid || item.contentTypeGuid;
+			item.content.name = item.content.name || item.item.name;
 
             vm.innerContentOverlay.event = $event;
             vm.innerContentOverlay.data = { model: item.content, idx: $index, action: "edit" };
