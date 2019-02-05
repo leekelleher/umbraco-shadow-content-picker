@@ -65,6 +65,13 @@ namespace Our.Umbraco.ShadowContentPicker.ValueConverters
 
                     var content = InnerContentHelper.ConvertInnerContentToPublishedContent(item.Content, null, i, 1, preview);
 
+                    // In scenarios where InnerContent can't convert the JSON into an IPublishedContent, it will return a null.
+                    if (content == null)
+                    {
+                        items.Add(fallback);
+                        continue;
+                    }
+
                     // Let the current model factory create a typed model to wrap our model
                     var shadow = PublishedContentModelFactoryResolver.HasCurrent && PublishedContentModelFactoryResolver.Current.HasValue
                         ? PublishedContentModelFactoryResolver.Current.Factory.CreateModel(new ShadowPublishedContent(content, fallback))
