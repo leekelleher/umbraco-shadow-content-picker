@@ -1,4 +1,4 @@
-﻿// Property Editors
+// Property Editors
 angular.module("umbraco").controller("Our.Umbraco.ShadowContentPicker.Controllers.PropertyEditorController", [
 
     "$scope",
@@ -85,8 +85,10 @@ angular.module("umbraco").controller("Our.Umbraco.ShadowContentPicker.Controller
                 if (angular.isArray(data.selection)) {
                     _.each(data.selection, function (entity, i) {
 
+                        var contentTypeAlias = entity.metaData.ContentTypeAlias || entity.metaData.contentType;
+
                         // TODO: I don't like hitting the API/db per loop iteration. Could we batch this? [LK]
-                        shadowContentResources.getContentTypeGuidByAlias(entity.metaData.ContentTypeAlias).then(function (data) {
+                        shadowContentResources.getContentTypeGuidByAlias(contentTypeAlias).then(function (data) {
 
                             // check that it hasn't already been added
                             var docTypeExists = _.find(docTypes, function (x) {
